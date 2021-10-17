@@ -46,6 +46,9 @@ STATUS Dumper::Init(int argc, char *argv[]) {
     if (!pid) {
       return STATUS::PROCESS_NOT_FOUND;
     };
+    
+    mem = new driver(pid);
+    mem->init();
   }
 
   if (!ReaderInit(pid)) {
