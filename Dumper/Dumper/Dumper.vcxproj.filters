@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Headers">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Sources">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Sources\include">
+      <UniqueIdentifier>{7feed74c-41d0-4a17-93ca-9e368259955d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\include\fmt">
+      <UniqueIdentifier>{fa04ece9-af5e-44b6-9f99-319055d65faa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\driver">
+      <UniqueIdentifier>{b0bb4cbc-e3e6-446a-a8ad-0998a0a3bf83}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\stuffs">
+      <UniqueIdentifier>{7eababf1-cc2c-4c96-b184-25dec6f786eb}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="utils.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="wrappers.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="generic.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\include\fmt\format.cc">
+      <Filter>Sources\include\fmt</Filter>
+    </ClCompile>
+    <ClCompile Include="memory.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="engine.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="dumper.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="driver.cpp">
+      <Filter>Sources\driver</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="engine.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="utils.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="memory.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="wrappers.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="generic.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="defs.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="dumper.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="driver.hpp">
+      <Filter>Sources\driver</Filter>
+    </ClInclude>
+    <ClInclude Include="ioctl.hpp">
+      <Filter>Sources\stuffs</Filter>
+    </ClInclude>
+    <ClInclude Include="includes.hpp">
+      <Filter>Sources\stuffs</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
