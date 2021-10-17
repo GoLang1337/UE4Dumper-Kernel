@@ -4,9 +4,6 @@
 
 int main(int argc, char* argv[])
 {
-    mem = new driver(GetProcessId(L"GameName.exe"));
-    mem->init();
-
     uint64 start;
     uint64 end;
     uint64 time;
