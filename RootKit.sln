@@ -1,11 +1,8 @@
-﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31624.102
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Driver", "Driver\Driver.vcxproj", "{2BC9C890-EE95-4219-AC58-872DDB9D7F5E}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Userland", "Userland\Userland.vcxproj", "{403CCF71-C4D3-4B5F-ABB1-2B3C2CCC8C45}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Dumper", "Dumper\Dumper\Dumper.vcxproj", "{4E175DB2-CFFD-48F9-888F-AF140E44068D}"
 EndProject
