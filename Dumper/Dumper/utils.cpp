@@ -19,7 +19,7 @@ uint32 GetProcessId(std::wstring name) {
   return pid;
 }
 
-std::pair<uint8*, uint32> GetModuleInfo(uint32 pid, std::wstring name) { // gonna plan this to be full kernel
+/*std::pair<uint8*, uint32> GetModuleInfo(uint32 pid, std::wstring name) { // gonna plan this to be full kernel
 
     std::pair<uint8*, uint32> info;
     HANDLE snapshot = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE, pid);
@@ -34,7 +34,7 @@ std::pair<uint8*, uint32> GetModuleInfo(uint32 pid, std::wstring name) { // gonn
     }
 
     return { (uint8*)mem->module_memory(pid), info.second };
-}
+}*/
 
 bool Compare(uint8* data, uint8 *sig, uint32 size) {
   for (uint32 i = 0; i < size; i++) {

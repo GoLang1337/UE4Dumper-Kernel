@@ -2,7 +2,7 @@
 
 void driver::init()
 {
-	this->DriverHandle = CreateFile("\\\\.\\\RootKit", GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, 0, NULL);
+	this->DriverHandle = CreateFile("\\\\.\\\Xo1337GodPaster", GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, 0, NULL);
 
 	if (DriverHandle == INVALID_HANDLE_VALUE)
 		this->DriverHandle = nullptr;
@@ -73,13 +73,22 @@ void driver::free_virtual_memory(PVOID Address)
 	DeviceIoControl(DriverHandle, io_free_memory, &req, sizeof(req), nullptr, 0, NULL, NULL);
 }
 
-PVOID driver::module_memory(int ProcessId)
+PVOID driver::get_module_base_peb()
 {
-	_module_memory req = { 0 };
+	_get_module_base_peb req = { 0 };
 
 	req.pid = ProcessId;
 
-	DeviceIoControl(DriverHandle, io_module_memory, &req, sizeof(req), &req, sizeof(req), NULL, NULL);
+	DeviceIoControl(DriverHandle, io_get_module_base_peb, &req, sizeof(req), &req, sizeof(req), NULL, NULL);
 
 	return (PVOID)req.address;
+}
+
+DWORD driver::get_module_size()
+{
+	ULONG Address;
+	DWORD Bytes;
+
+	DeviceIoControl(DriverHandle, io_get_module_size, &Address, sizeof(Address), &Address, sizeof(Address), &Bytes, NULL);
+	return Address;
 }

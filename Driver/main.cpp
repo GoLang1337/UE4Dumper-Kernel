@@ -73,20 +73,28 @@ NTSTATUS IoControl(PDEVICE_OBJECT DeviceObject, PIRP Irp)
 			BytesIO = 0;
 		}
 	}
-	else if (ControlCode == io_module_memory)
+	else if (ControlCode == io_get_module_base_peb)
 	{
-		if (InputBufferLength == sizeof(_module_memory))
+		if (InputBufferLength == sizeof(_get_module_base_peb))
 		{
-			pmodule_memory req = (pmodule_memory)(Irp->AssociatedIrp.SystemBuffer);
+			pget_module_base_peb req = (pget_module_base_peb)(Irp->AssociatedIrp.SystemBuffer);
 
-			Status = GetModuleBase(req);
-			BytesIO = sizeof(_module_memory);
+			Status = GetModuleBasePeb(req);
+			BytesIO = sizeof(_get_module_base_peb);
 		}
 		else
 		{
 			Status = STATUS_INFO_LENGTH_MISMATCH;
 			BytesIO = 0;
 		}
+	}
+	else if (ControlCode == io_get_module_size)
+	{
+		PULONG OutPut = (PULONG)Irp->AssociatedIrp.SystemBuffer;
+		*OutPut = moduleSize;
+
+		Status = STATUS_SUCCESS;
+		BytesIO = sizeof(*OutPut);
 	}
 
 	Irp->IoStatus.Status = Status;
@@ -152,8 +160,8 @@ NTSTATUS DriverInitialize(PDRIVER_OBJECT DriverObject, PUNICODE_STRING RegistryP
 	NTSTATUS Status = { };
 	PDEVICE_OBJECT DeviceObject = { };
 
-	RtlInitUnicodeString(&DeviceName, L"\\Device\\RootKit");
-	RtlInitUnicodeString(&SymbolicLink, L"\\DosDevices\\RootKit");
+	RtlInitUnicodeString(&DeviceName, L"\\Device\\Xo1337GodPaster");
+	RtlInitUnicodeString(&SymbolicLink, L"\\DosDevices\\Xo1337GodPaster");
 
 	Status = IoCreateDevice(DriverObject, 0, &DeviceName, FILE_DEVICE_UNKNOWN, FILE_DEVICE_SECURE_OPEN, FALSE, &DeviceObject);
 

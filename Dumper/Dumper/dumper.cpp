@@ -71,7 +71,9 @@ STATUS Dumper::Init(int argc, char *argv[]) {
     Directory = root / "Games" / game;
     fs::create_directories(Directory);
 
-    auto [base, size] = GetModuleInfo(pid, processName);
+    //auto [base, size] = GetModuleInfo(pid, processName);
+    auto base = mem->get_module_base_peb();
+    auto size = mem->get_module_size();
     if (!(base && size)) { return STATUS::MODULE_NOT_FOUND; }
     Base = (uint64)base;
     Image = VirtualAlloc(0, size, MEM_COMMIT, PAGE_EXECUTE_READWRITE);

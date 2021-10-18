@@ -6,7 +6,8 @@
 #define io_protect_memory CTL_CODE(FILE_DEVICE_UNKNOWN, 0x2, METHOD_BUFFERED, FILE_SPECIAL_ACCESS)
 #define io_allocate_memory CTL_CODE(FILE_DEVICE_UNKNOWN, 0x3, METHOD_BUFFERED, FILE_SPECIAL_ACCESS)
 #define io_free_memory CTL_CODE(FILE_DEVICE_UNKNOWN, 0x4, METHOD_BUFFERED, FILE_SPECIAL_ACCESS)
-#define io_module_memory CTL_CODE(FILE_DEVICE_UNKNOWN, 0x5, METHOD_BUFFERED, FILE_SPECIAL_ACCESS)
+#define io_get_module_base_peb CTL_CODE(FILE_DEVICE_UNKNOWN, 0x5, METHOD_BUFFERED, FILE_SPECIAL_ACCESS)
+#define io_get_module_size CTL_CODE(FILE_DEVICE_UNKNOWN, 0x6, METHOD_BUFFERED, FILE_SPECIAL_ACCESS)
 
 typedef struct _copy_memory
 {
@@ -39,8 +40,9 @@ typedef struct _free_memory
 	ULONGLONG address;
 } free_memory, *pfree_memory;
 
-typedef struct _module_memory
+typedef struct _get_module_base_peb
 {
 	INT32 pid;
 	ULONGLONG address;
-} module_memory, *pmodule_memory;
+	ULONG size;
+} get_module_base_peb, * pget_module_base_peb;

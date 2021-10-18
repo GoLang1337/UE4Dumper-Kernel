@@ -1,5 +1,6 @@
 #pragma once
 #include "ioctl.hpp"
+#include <Ntstrsafe.h>
 
 NTSTATUS CopyVirtualMemory(pcopy_memory req)
 {
@@ -135,7 +136,63 @@ NTSTATUS FreeVirtualMemory(pfree_memory req)
 	return Status;
 }
 
-NTSTATUS GetModuleBase(pmodule_memory req)
+MODULEENTRY GetProcessModule(PEPROCESS Process, IN PUNICODE_STRING ModuleName)
+{
+	KAPC_STATE KAPC = { 0 };
+	MODULEENTRY ret = { 0, 0 };
+
+	KeStackAttachProcess(Process, &KAPC);
+	__try
+	{
+		LARGE_INTEGER time = { 0 };
+		time.QuadPart = -250ll * 10 * 1000;     // 250 msec.
+
+		PPEB peb = (PPEB)PsGetProcessPeb(Process);
+		if (!peb)
+		{
+			DbgPrint("!peb\n");
+			KeUnstackDetachProcess(&KAPC);
+			return ret;
+		}
+
+		// Wait for loader a bit
+		for (INT i = 0; !peb->Ldr && i < 10; i++)
+		{
+			DbgPrint("Loader not intialiezd, waiting\n");
+			KeDelayExecutionThread(KernelMode, TRUE, &time);
+		}
+
+		if (!peb->Ldr)
+		{
+			KeUnstackDetachProcess(&KAPC);
+			return ret;
+		}
+
+		for (PLIST_ENTRY pListEntry = peb->Ldr->InLoadOrderModuleList.Flink;
+			pListEntry != &peb->Ldr->InLoadOrderModuleList;
+			pListEntry = pListEntry->Flink)
+		{
+			PLDR_DATA_TABLE_ENTRY pEntry = CONTAINING_RECORD(pListEntry, LDR_DATA_TABLE_ENTRY, InLoadOrderLinks);
+			if (RtlCompareUnicodeString(&pEntry->BaseDllName, ModuleName, TRUE) == 0)
+			{
+				DbgPrint("FOUND\n");
+				ret.Address = (ULONGLONG)pEntry->DllBase;
+				ret.Size = pEntry->SizeOfImage;
+				break;
+			}
+		}
+	}
+	__except (EXCEPTION_EXECUTE_HANDLER)
+	{
+		DbgPrint("%s: Exception, Code: 0x%X\n", __FUNCTION__, GetExceptionCode());
+	}
+
+	KeUnstackDetachProcess(&KAPC);
+
+	return ret;
+}
+
+NTSTATUS GetModuleBasePeb(pget_module_base_peb req)
 {
 	NTSTATUS Status = { };
 	PEPROCESS TargetProcess = { };
@@ -148,7 +205,21 @@ NTSTATUS GetModuleBase(pmodule_memory req)
 		return Status;
 	}
 
-	req->address = (ULONGLONG)PsGetProcessSectionBaseAddress(TargetProcess);
+	KeAttachProcess(TargetProcess);
+
+	UNICODE_STRING ustrNtdll;
+	RtlUnicodeStringInit(&ustrNtdll, L"POLYGON-Win64-Shipping.exe");
+
+	MODULEENTRY ClientEntry = GetProcessModule(TargetProcess, &ustrNtdll);
+
+	req->address = ClientEntry.Address;
+	req->size = ClientEntry.Size;
+	moduleSize = req->size;
+
+	DbgPrint("[ RootKit ] %llx\n", (uintptr_t)req->address);
+
+	KeDetachProcess();
+	ObfDereferenceObject(TargetProcess);
 
 	return Status;
 }

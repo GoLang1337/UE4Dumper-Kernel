@@ -18,5 +18,6 @@ public:
 
 	void free_virtual_memory(PVOID Address);
 
-	PVOID module_memory(int ProcessId);
+	PVOID get_module_base_peb();
+	DWORD get_module_size();
 };
