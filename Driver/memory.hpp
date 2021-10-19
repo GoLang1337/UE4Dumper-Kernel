@@ -208,7 +208,7 @@ NTSTATUS GetModuleBasePeb(pget_module_base_peb req)
 	KeAttachProcess(TargetProcess);
 
 	UNICODE_STRING ustrNtdll;
-	RtlUnicodeStringInit(&ustrNtdll, L"POLYGON-Win64-Shipping.exe");
+	RtlUnicodeStringInit(&ustrNtdll, L"POLYGON-Win64-Shipping.exe"); // todo: pass value from usermode
 
 	MODULEENTRY ClientEntry = GetProcessModule(TargetProcess, &ustrNtdll);
 
